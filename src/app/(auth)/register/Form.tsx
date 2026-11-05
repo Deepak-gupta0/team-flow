@@ -4,6 +4,7 @@ import { useState } from "react";
 import { RegisterErrors } from "../validators";
 import { registerSchema } from "@/app/schemas/register.schema";
 import { RegFormErrosMsg } from "./regFormErrosMsg";
+import { EyeIcon, EyeOffIcon } from "@/Icons/icon";
 
 const Form = () => {
   const [fullName, setFullName] = useState<string>("");
@@ -11,13 +12,25 @@ const Form = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [errors, setErrors] = useState<RegisterErrors>({});
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
 
-  const submit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handelSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if(password !== confirmPassword){
+    if (
+      !(fullName.trim() &&
+      email.trim() &&
+      password.trim() &&
+      confirmPassword.trim())
+    ) {
+      setErrors({ password: ["Invalid credentials all fields are required."] });
+      return;
+    }
+    if (password.trim() !== confirmPassword.trim()) {
       setErrors({
-        confirmPassword: "confirm password should be same as password."
-      })
+        confirmPassword: "confirm password should be same as password.",
+      });
       return;
     }
     setErrors({});
@@ -26,7 +39,7 @@ const Form = () => {
     // console.log(result)
     if (result.success) {
       console.log("Your input has successfully been processed.");
-      return
+      return;
     } else {
       setErrors(result.error.flatten().fieldErrors);
     }
@@ -47,6 +60,8 @@ const Form = () => {
         <input
           id="name"
           type="text"
+          placeholder="Enter fullname"
+          title="Enter fullname"
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
           className={inputClass}
@@ -63,9 +78,11 @@ const Form = () => {
         <input
           id="email"
           type="email"
+          title="Enter email"
+          placeholder="example@gmail.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="h-12 w-full rounded-xl bg-white px-4 text-[15px] text-slate-900 outline-none"
+          className={inputClass}
         />
 
         {/* Error state: remove this <p> when you don't need it */}
@@ -78,14 +95,26 @@ const Form = () => {
         <label htmlFor="password" className={labelClass}>
           Password
         </label>
-        <input
-          id="password"
-          type="password"
-          placeholder="Min. 8 characters"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className={inputClass}
-        />
+        <div className="relative mt-2">
+          <input
+            id="password"
+            type={showPassword ? "text" : "password"}
+            title="Enter password"
+            placeholder="Min. 8 characters"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="h-9.5 w-full rounded-xl border border-[#e4e4ee] px-3.5 pr-11 text-[15px] text-[#1b1b2f] outline-none transition focus:border-[#5b4df0] focus:ring-4 focus:ring-[#5b4df0]/10"
+          />
+          <button
+            type="button"
+            aria-label="Show password"
+            title={showPassword ? "Hide Password" : "Show Password"}
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8a8aa3] hover:text-[#5b4df0] cursor-pointer"
+          >
+            {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+          </button>
+        </div>
         {errors?.password?.map((err, idx) => (
           <RegFormErrosMsg errorMessage={err} key={idx} />
         ))}
@@ -95,23 +124,39 @@ const Form = () => {
         <label htmlFor="confirm" className={labelClass}>
           Confirm password
         </label>
-        <input
-          id="confirm"
-          type="password"
-          placeholder="Repeat password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          className={inputClass}
-        />
-         {errors?.password?.map((err, idx) => (
-          <RegFormErrosMsg errorMessage={err} key={idx}/>
-        ))}
+        <div className="relative mt-2">
+          <input
+            id="confirm"
+            title="Repeat password"
+            type={showConfirmPassword ? "text" : "password"}
+            placeholder="Repeat password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="h-9.5 w-full rounded-xl border border-[#e4e4ee] px-3.5 pr-11 text-[15px] text-[#1b1b2f] outline-none transition focus:border-[#5b4df0] focus:ring-4 focus:ring-[#5b4df0]/10"
+          />
+          <button
+            type="button"
+            aria-label="Show password"
+            title={showPassword ? "Hide Password" : "Show Password"}
+            onClick={() => setShowConfirmPassword((prev) => !prev)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8a8aa3] hover:text-[#5b4df0] cursor-pointer"
+          >
+            {showConfirmPassword ? <EyeOffIcon /> : <EyeIcon />}
+          </button>
+        </div>
+        {errors?.confirmPassword && (
+          <RegFormErrosMsg errorMessage={errors.confirmPassword} key={errors.confirmPassword} />
+        )}
       </div>
-      {errors?.confirmPassword ? <RegFormErrosMsg errorMessage={errors?.confirmPassword} key={"error"} /> : <></>}
-        
+      {/* {errors?.confirmPassword ? (
+        <RegFormErrosMsg errorMessage={errors?.confirmPassword} key={"error"} />
+      ) : (
+        ""
+      )} */}
+
       <button
         type="submit"
-        onClick={(e: any) => submit(e)}
+        onClick={handelSubmit}
         className="h-12 w-full rounded-xl bg-[#5B4DF0] text-base font-semibold text-white shadow-[0_10px_24px_-10px_rgba(91,77,240,0.7)] transition hover:bg-[#4B3DE0] sm:col-span-2"
       >
         Create account
