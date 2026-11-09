@@ -3,7 +3,7 @@
 // aur password eye button pe toggle (type="password" <-> "text") lagana.
 // Font: Inter (next/font/google se layout.jsx me load kar lena).
 
-import { LOGO } from "@/app/constants/logo";
+import { LOGO } from "@/constants/logo";
 import { LoginForm } from "./Form";
 import Link from "next/link";
 

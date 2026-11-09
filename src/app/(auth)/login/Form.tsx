@@ -1,6 +1,6 @@
 "use client";
 
-import { BRAND } from "@/app/constants/logo";
+import { BRAND } from "@/constants/logo"; 
 import { EyeIcon, EyeOffIcon, GoogleIcon } from "@/Icons/icon";
 import { useState } from "react";
 import { RegFormErrosMsg } from "../register/regFormErrosMsg";

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { RegisterErrors } from "../validators";
-import { registerSchema } from "@/app/schemas/register.schema";
+import { RegisterErrors } from "../../../interfaces/validators";
+import { registerSchema } from "@/schemas/register.schema"; 
 import { RegFormErrosMsg } from "./regFormErrosMsg";
 import { EyeIcon, EyeOffIcon } from "@/Icons/icon";
 
