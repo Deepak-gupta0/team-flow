@@ -101,10 +101,10 @@ export default function Sidebar({ children }: { children?: ReactNode }) {
   const [collapsed, setCollapsed] = useState<boolean>(false);
 
   return (
-    <div className="flex min-h-screen bg-slate-50">
+    <div className="flex min-h-screen bg-slate-50 ">
       <aside
-        className={`sticky top-0 flex h-screen shrink-0 flex-col border-r border-slate-200 bg-white transition-[width] duration-200 ${
-          collapsed ? "w-[72px]" : "w-64"
+        className={`sticky top-0 flex h-screen  shrink-0 flex-col border-r border-slate-200 bg-white transition-[width] duration-200 ${
+          collapsed ? "w-18" : "hidden"
         }`}
       >
         {/* Header */}
