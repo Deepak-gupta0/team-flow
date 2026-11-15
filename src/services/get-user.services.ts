@@ -1,6 +1,12 @@
-
-const getUser = async() => {
-  
+export interface UserInterface {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
 }
 
-export default getUser;
+const getUser = async (): Promise<UserInterface> => {
+  return {id: "", name: "", email:"", role:""}
+}
+
+export {getUser};

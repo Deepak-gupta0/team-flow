@@ -1,26 +1,43 @@
 "use client";
 
 import { createProject } from "@/services/create-project.services";
-import { useState } from "react";
+import {getUser, UserInterface} from "@/services/get-user.services";
+import { useEffect, useState } from "react";
 
 export default function CreateProject() {
-  
   const [projectName, setProjectName] = useState("");
   const [description, setDescription] = useState("");
+  const [user, setUser] = useState<UserInterface | null>(null);
 
- const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-  e.preventDefault();
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userData = await getUser<UserInterface | null>();
+        setUser(userData);
+      } catch (error) {
+        console.error(error);
+      } 
+    };
 
-  const data = await createProject({name: projectName, description: description, owner_id: ""});
-  console.log("Submitted");
+    fetchUser();
+  }, []);
 
-  if(data.status === 201){
-    return;
-  }else{
-    console.log("something went wrong.")
-  }
-};  
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
 
+    const data = await createProject({
+      name: projectName,
+      description: description,
+      owner_id: "",
+    });
+    console.log("Submitted");
+
+    if (data.status === 201) {
+      return;
+    } else {
+      console.log("something went wrong.");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
