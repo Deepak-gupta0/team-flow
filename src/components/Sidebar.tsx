@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Zap,
   PanelLeftClose,
@@ -6,12 +8,14 @@ import {
   Inbox,
   Plus,
   Star,
+  Menu,
 } from "lucide-react";
 import AccountCard from "./AccountCard";
 
 export default function Sidebar() {
+
   return (
-    <aside className="flex flex-col justify-between min-h-screen w-67.5 shrink-0 rounded-[28px] bg-white  shadow-sm">
+    <aside className="flex flex-col justify-between min-h-screen w-67.5 shrink-0 md:rounded-[28px] bg-white  shadow-sm">
       <div className="p-4 flex-1 flex flex-col">
         <div className="flex items-center justify-between px-2 pb-6 pt-2">
           <div className="flex items-center gap-3">
@@ -22,7 +26,7 @@ export default function Sidebar() {
               TeamFlow
             </span>
           </div>
-          <button className="text-slate-400 hover:text-slate-600">
+          <button  className="text-slate-400 hover:text-slate-600">
             <PanelLeftClose size={18} />
           </button>
         </div>
@@ -72,6 +76,7 @@ export default function Sidebar() {
           </a>
         </nav>
       </div>
+      
       <div className="shadow-inner py-2 px-4 rounderd-xl shadow-slate-200">
         <AccountCard />
       </div>
